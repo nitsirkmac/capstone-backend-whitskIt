@@ -19,7 +19,7 @@ db.on("connected", () => console.log("mongo connected"));
 db.on("disconnected", () => console.log("mongo disconnected"));
 
 
-const WhiskItRecipeSchema = new mongoose.Schema({
+const WhiskItRecipesSchema = new mongoose.Schema({
     name: String,
     author: String,
     prepTime: String,
@@ -28,6 +28,8 @@ const WhiskItRecipeSchema = new mongoose.Schema({
     instructions: String,
     image: String,
 })
+
+const WhiskItRecipes = mongoose.model('WhiskItRecipes', WhiskItRecipesSchema)
 
 // MIDDLEWARE
 // Body Parser middleware - give us access to req.body
@@ -43,8 +45,28 @@ app.get('/', (req, res) => {
     res.send('whisk me away')
 })
 
-app.get('/recipes', (req, res) => {
-    res.send('/recipes Index Route')
+// Index
+app.get('/recipes', async (req, res) => {
+    try {
+        res.status(200).json( await WhiskItRecipes.find({}))
+    } catch (error) {
+        res.status(400).json(error)
+    }
 })
+ 
+// Delete
+
+// Update
+
+// Create
+app.post('/recipes', async (req, res) => {
+    try {
+        res.status(200).json(await WhiskItRecipes.create(req.body))
+    } catch (error) {
+        res.status(400).json(error)
+        console.log(error)
+    }
+})
+
 
 app.listen(PORT, () => console.log('pitter patter'))
