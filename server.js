@@ -55,8 +55,24 @@ app.get('/recipes', async (req, res) => {
 })
  
 // Delete
+app.delete('/recipes/:id', async (req, res) => {
+    try {
+        res.status(200).json(await WhiskItRecipes.findByIdAndDelete(req.params.id))
+    } catch (error) {
+        res.status(400).json(error)
+        console.log(error)
+    }
+})
 
 // Update
+app.put('/recipes/:id', async (req, res) => {
+    try {
+        res.status(200).json(await WhiskItRecipes.findByIdAndUpdate(req.params.id, req.body, {new: true }))
+    } catch (error) {
+        res.status(400).json(error)
+        console.log(error)
+    }
+})
 
 // Create
 app.post('/recipes', async (req, res) => {
