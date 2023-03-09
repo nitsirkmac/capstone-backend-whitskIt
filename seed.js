@@ -46,4 +46,4 @@ const seed = [
     },
 ]
 
-module.exports = setImmediate
+module.exports = seed
